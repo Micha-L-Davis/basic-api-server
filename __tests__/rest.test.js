@@ -41,27 +41,73 @@ describe('Testing our REST API', () => {
     expect(response.body.state).toEqual('tester');
   });
 
-  test('Should read from people', () => {
+  test('Should read from people', async () => {
+    let response = await request.get('/people').send();
 
+    expect(response.status).toEqual(200);
+    expect(response.body.length).toEqual(1);
+    expect(response.body[0].name).toEqual('test');
+    expect(response.body[0].age).toEqual(100);
+    expect(response.body[0].job).toEqual('tester');
   });
 
-  test('Should read from places', () => {
+  test('Should read from places', async () => {
+    let response = await request.get('/places').send();
 
+    expect(response.status).toEqual(200);
+    expect(response.body.length).toEqual(1);
+    expect(response.body[0].name).toEqual('test');
+    expect(response.body[0].county).toEqual('testing');
+    expect(response.body[0].state).toEqual('tester');
   });
 
-  test('Should delete a person', () => {
+  test('Should read a specific person', async () => {
+    let response = await request.get('/people/1').send();
 
+    expect(response.status).toEqual(200);
+    expect(response.body[0].name).toEqual('test');
+    expect(response.body[0].age).toEqual(100);
+    expect(response.body[0].job).toEqual('tester');
   });
 
-  test('Should delete a place', () => {
+  test('Should read a specific place', async () => {
+    let response = await request.get('/places/1').send();
 
+    expect(response.status).toEqual(200);
+    expect(response.body[0].name).toEqual('test');
+    expect(response.body[0].county).toEqual('testing');
+    expect(response.body[0].state).toEqual('tester');
   });
 
-  test('Should update a person', () => {
+  test('Should delete a person', async () => {
+    let response = await request.delete('/people/1');
 
+    expect(response.status).toEqual(200);
+    expect(response.body).toEqual(1);
   });
 
-  test('Should update a place', () => {
+  test('Should delete a place', async () => {
+    let response = await request.delete('/places/1');
 
+    expect(response.status).toEqual(200);
+    expect(response.body).toEqual(1);
+  });
+
+  test('Should update a person', async () => {
+    let response = await request.put('/people/1').send({
+      name: 'update',
+    });
+
+    expect(response.status).toEqual(200);
+    expect(response.body).toEqual([0]);
+  });
+
+  test('Should update a place', async () => {
+    let response = await request.put('/places/1').send({
+      name: 'update',
+    });
+
+    expect(response.status).toEqual(200);
+    expect(response.body).toEqual([0]);
   });
 });
